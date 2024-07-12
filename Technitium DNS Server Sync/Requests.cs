@@ -4,6 +4,7 @@ using System.Text.Json;
 using TechnitiumSync.Models;
 
 namespace TechnitiumSync;
+
 internal class Requests
 {
     public static async Task<LoginResponse.Root?> LoginAsync(HttpClient client, string user, string password, string url, bool includeInfo)
@@ -25,7 +26,10 @@ internal class Requests
     {
         // Generate timestamp for request
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var response = await client.GetAsync($"{configuration.MainServerUrl}/api/settings/backup?token={token}&blockLists=true&logs=false&scopes=false&apps=false&stats=false&zones=true&allowedZones=true&blockedZones=true&dnsSettings=true&authConfig=true&logSettings=true&ts={timestamp}");
+        var response = await client.GetAsync($"{configuration.MainServerUrl}/api/settings/backup?token={token}" +
+            $"&blockLists={configuration.BlockLists}&logs={configuration.Logs}&scopes={configuration.Scopes}&apps={configuration.Apps}" +
+            $"&stats={configuration.Stats}&zones={configuration.Zones}&allowedZones={configuration.AllowedZones}" +
+            $"&blockedZones={configuration.BlockedZones}&dnsSettings={configuration.DnsSettings}&authConfig={configuration.AuthConfig}&logSettings={configuration.LogSettings}&ts={timestamp}");
         response.EnsureSuccessStatusCode();
 
         // Save the file to disk
@@ -43,15 +47,16 @@ internal class Requests
         using var content = new MultipartFormDataContent();
         content.Add(new StreamContent(fileStream), "fileBackupZip", "backup.zip");
 
-        var response = await client.PostAsync($"{url}/api/settings/restore?token={token}&blockLists=false&logs=false&scopes=false&apps=false&stats=false&zones=true&allowedZones=true&blockedZones=true&dnsSettings=true&authConfig=true&logSettings=true&deleteExistingFiles=false", content);
+        var response = await client.PostAsync($"{url}/api/settings/restore?token={token}" +
+            $"&blockLists={configuration.BlockLists}&logs={configuration.Logs}&scopes={configuration.Scopes}&apps={configuration.Apps}" +
+            $"&stats={configuration.Stats}&zones={configuration.Zones}&allowedZones={configuration.AllowedZones}" +
+            $"&blockedZones={configuration.BlockedZones}&dnsSettings={configuration.DnsSettings}&authConfig={configuration.AuthConfig}&logSettings={configuration.LogSettings}&deleteExistingFiles=false", content);
         response.EnsureSuccessStatusCode();
 
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        if (string.IsNullOrEmpty(responseContent))
-            throw new Exception("Empty response from server.");
-
-        return JsonSerializer.Deserialize<RestoreResponse.Root>(responseContent);
+        return string.IsNullOrEmpty(responseContent)
+            ? throw new Exception("Empty response from server.")
+            : JsonSerializer.Deserialize<RestoreResponse.Root>(responseContent);
     }
-
 }

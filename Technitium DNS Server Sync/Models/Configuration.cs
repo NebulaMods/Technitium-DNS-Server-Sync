@@ -1,22 +1,23 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace TechnitiumSync.Models;
+
 public class Configuration
 {
     [JsonPropertyName("username")]
-    public string Username { get; set; }
+    public string Username { get; set; } = null!;
 
     [JsonPropertyName("password")]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
 
     [JsonPropertyName("includeInfo")]
     public bool IncludeInfo { get; set; }
 
     [JsonPropertyName("mainServerUrl")]
-    public string MainServerUrl { get; set; }
+    public string MainServerUrl { get; set; } = null!;
 
     [JsonPropertyName("backupServerUrls")]
-    public string[] BackupServerUrls { get; set; }
+    public string[]? BackupServerUrls { get; set; }
 
     [JsonPropertyName("syncInterval")]
     public int SyncInterval { get; set; }

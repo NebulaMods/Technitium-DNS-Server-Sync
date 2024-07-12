@@ -1,27 +1,28 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace TechnitiumSync.Models;
+
 public class RestoreResponse
 {
     public class Response
     {
         [JsonPropertyName("version")]
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         [JsonPropertyName("uptimestamp")]
         public DateTime? Uptimestamp { get; set; }
 
         [JsonPropertyName("dnsServerDomain")]
-        public string DnsServerDomain { get; set; }
+        public string? DnsServerDomain { get; set; }
 
         [JsonPropertyName("dnsServerLocalEndPoints")]
-        public List<string> DnsServerLocalEndPoints { get; set; }
+        public List<string?>? DnsServerLocalEndPoints { get; set; }
 
         [JsonPropertyName("dnsServerIPv4SourceAddresses")]
-        public List<string> DnsServerIPv4SourceAddresses { get; set; }
+        public List<string?>? DnsServerIPv4SourceAddresses { get; set; }
 
         [JsonPropertyName("dnsServerIPv6SourceAddresses")]
-        public List<string> DnsServerIPv6SourceAddresses { get; set; }
+        public List<string?>? DnsServerIPv6SourceAddresses { get; set; }
 
         [JsonPropertyName("defaultRecordTtl")]
         public int? DefaultRecordTtl { get; set; }
@@ -30,10 +31,10 @@ public class RestoreResponse
         public bool? UseSoaSerialDateScheme { get; set; }
 
         [JsonPropertyName("zoneTransferAllowedNetworks")]
-        public List<object> ZoneTransferAllowedNetworks { get; set; }
+        public List<object>? ZoneTransferAllowedNetworks { get; set; }
 
         [JsonPropertyName("notifyAllowedNetworks")]
-        public List<object> NotifyAllowedNetworks { get; set; }
+        public List<object>? NotifyAllowedNetworks { get; set; }
 
         [JsonPropertyName("dnsAppsEnableAutomaticUpdate")]
         public bool? DnsAppsEnableAutomaticUpdate { get; set; }
@@ -57,10 +58,10 @@ public class RestoreResponse
         public int? EDnsClientSubnetIPv6PrefixLength { get; set; }
 
         [JsonPropertyName("eDnsClientSubnetIpv4Override")]
-        public object EDnsClientSubnetIpv4Override { get; set; }
+        public object? EDnsClientSubnetIpv4Override { get; set; }
 
         [JsonPropertyName("eDnsClientSubnetIpv6Override")]
-        public object EDnsClientSubnetIpv6Override { get; set; }
+        public object? EDnsClientSubnetIpv6Override { get; set; }
 
         [JsonPropertyName("qpmLimitRequests")]
         public int? QpmLimitRequests { get; set; }
@@ -78,7 +79,7 @@ public class RestoreResponse
         public int? QpmLimitIPv6PrefixLength { get; set; }
 
         [JsonPropertyName("qpmLimitBypassList")]
-        public List<object> QpmLimitBypassList { get; set; }
+        public List<object>? QpmLimitBypassList { get; set; }
 
         [JsonPropertyName("clientTimeout")]
         public int? ClientTimeout { get; set; }
@@ -99,7 +100,7 @@ public class RestoreResponse
         public int? ListenBacklog { get; set; }
 
         [JsonPropertyName("webServiceLocalAddresses")]
-        public List<string> WebServiceLocalAddresses { get; set; }
+        public List<string?>? WebServiceLocalAddresses { get; set; }
 
         [JsonPropertyName("webServiceHttpPort")]
         public int? WebServiceHttpPort { get; set; }
@@ -120,10 +121,10 @@ public class RestoreResponse
         public int? WebServiceTlsPort { get; set; }
 
         [JsonPropertyName("webServiceTlsCertificatePath")]
-        public object WebServiceTlsCertificatePath { get; set; }
+        public string? WebServiceTlsCertificatePath { get; set; }
 
         [JsonPropertyName("webServiceTlsCertificatePassword")]
-        public string WebServiceTlsCertificatePassword { get; set; }
+        public string? WebServiceTlsCertificatePassword { get; set; }
 
         [JsonPropertyName("enableDnsOverUdpProxy")]
         public bool? EnableDnsOverUdpProxy { get; set; }
@@ -162,22 +163,22 @@ public class RestoreResponse
         public int? DnsOverQuicPort { get; set; }
 
         [JsonPropertyName("dnsTlsCertificatePath")]
-        public object DnsTlsCertificatePath { get; set; }
+        public object? DnsTlsCertificatePath { get; set; }
 
         [JsonPropertyName("dnsTlsCertificatePassword")]
-        public string DnsTlsCertificatePassword { get; set; }
+        public string? DnsTlsCertificatePassword { get; set; }
 
         [JsonPropertyName("tsigKeys")]
-        public List<object> TsigKeys { get; set; }
+        public List<object>? TsigKeys { get; set; }
 
         [JsonPropertyName("recursion")]
-        public string Recursion { get; set; }
+        public string? Recursion { get; set; }
 
         [JsonPropertyName("recursionDeniedNetworks")]
-        public List<object> RecursionDeniedNetworks { get; set; }
+        public List<object>? RecursionDeniedNetworks { get; set; }
 
         [JsonPropertyName("recursionAllowedNetworks")]
-        public List<object> RecursionAllowedNetworks { get; set; }
+        public List<object>? RecursionAllowedNetworks { get; set; }
 
         [JsonPropertyName("randomizeName")]
         public bool? RandomizeName { get; set; }
@@ -240,16 +241,16 @@ public class RestoreResponse
         public bool? AllowTxtBlockingReport { get; set; }
 
         [JsonPropertyName("blockingBypassList")]
-        public List<object> BlockingBypassList { get; set; }
+        public List<object>? BlockingBypassList { get; set; }
 
         [JsonPropertyName("blockingType")]
-        public string BlockingType { get; set; }
+        public string? BlockingType { get; set; }
 
         [JsonPropertyName("customBlockingAddresses")]
-        public List<object> CustomBlockingAddresses { get; set; }
+        public List<object>? CustomBlockingAddresses { get; set; }
 
         [JsonPropertyName("blockListUrls")]
-        public List<string> BlockListUrls { get; set; }
+        public List<string?>? BlockListUrls { get; set; }
 
         [JsonPropertyName("blockListUpdateIntervalHours")]
         public int? BlockListUpdateIntervalHours { get; set; }
@@ -258,13 +259,13 @@ public class RestoreResponse
         public DateTime? BlockListNextUpdatedOn { get; set; }
 
         [JsonPropertyName("proxy")]
-        public object Proxy { get; set; }
+        public object? Proxy { get; set; }
 
         [JsonPropertyName("forwarders")]
-        public List<string> Forwarders { get; set; }
+        public List<string?>? Forwarders { get; set; }
 
         [JsonPropertyName("forwarderProtocol")]
-        public string ForwarderProtocol { get; set; }
+        public string? ForwarderProtocol { get; set; }
 
         [JsonPropertyName("forwarderRetries")]
         public int? ForwarderRetries { get; set; }
@@ -288,7 +289,7 @@ public class RestoreResponse
         public bool? UseLocalTime { get; set; }
 
         [JsonPropertyName("logFolder")]
-        public string LogFolder { get; set; }
+        public string? LogFolder { get; set; }
 
         [JsonPropertyName("maxLogFileDays")]
         public int? MaxLogFileDays { get; set; }
@@ -303,10 +304,9 @@ public class RestoreResponse
     public class Root
     {
         [JsonPropertyName("response")]
-        public Response Response { get; set; }
+        public Response? Response { get; set; }
 
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
-
 }

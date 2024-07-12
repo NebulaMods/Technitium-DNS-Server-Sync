@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace TechnitiumSync.Models;
+
 public class LoginResponse
 {
     public class Administration
@@ -102,13 +103,13 @@ public class LoginResponse
     public class Info
     {
         [JsonPropertyName("version")]
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         [JsonPropertyName("uptimestamp")]
         public DateTime? Uptimestamp { get; set; }
 
         [JsonPropertyName("dnsServerDomain")]
-        public string DnsServerDomain { get; set; }
+        public string? DnsServerDomain { get; set; }
 
         [JsonPropertyName("defaultRecordTtl")]
         public int? DefaultRecordTtl { get; set; }
@@ -120,7 +121,7 @@ public class LoginResponse
         public bool? DnssecValidation { get; set; }
 
         [JsonPropertyName("permissions")]
-        public Permissions Permissions { get; set; }
+        public Permissions? Permissions { get; set; }
     }
 
     public class Logs
@@ -138,55 +139,55 @@ public class LoginResponse
     public class Permissions
     {
         [JsonPropertyName("Dashboard")]
-        public Dashboard Dashboard { get; set; }
+        public Dashboard? Dashboard { get; set; }
 
         [JsonPropertyName("Zones")]
-        public Zones Zones { get; set; }
+        public Zones? Zones { get; set; }
 
         [JsonPropertyName("Cache")]
-        public Cache Cache { get; set; }
+        public Cache? Cache { get; set; }
 
         [JsonPropertyName("Allowed")]
-        public Allowed Allowed { get; set; }
+        public Allowed? Allowed { get; set; }
 
         [JsonPropertyName("Blocked")]
-        public Blocked Blocked { get; set; }
+        public Blocked? Blocked { get; set; }
 
         [JsonPropertyName("Apps")]
-        public Apps Apps { get; set; }
+        public Apps? Apps { get; set; }
 
         [JsonPropertyName("DnsClient")]
-        public DnsClient DnsClient { get; set; }
+        public DnsClient? DnsClient { get; set; }
 
         [JsonPropertyName("Settings")]
-        public Settings Settings { get; set; }
+        public Settings? Settings { get; set; }
 
         [JsonPropertyName("DhcpServer")]
-        public DhcpServer DhcpServer { get; set; }
+        public DhcpServer? DhcpServer { get; set; }
 
         [JsonPropertyName("Administration")]
-        public Administration Administration { get; set; }
+        public Administration? Administration { get; set; }
 
         [JsonPropertyName("Logs")]
-        public Logs Logs { get; set; }
+        public Logs? Logs { get; set; }
     }
 
     public class Root
     {
         [JsonPropertyName("displayName")]
-        public string DisplayName { get; set; }
+        public string? DisplayName { get; set; }
 
         [JsonPropertyName("username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [JsonPropertyName("token")]
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
         [JsonPropertyName("info")]
-        public Info Info { get; set; }
+        public Info? Info { get; set; }
 
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 
     public class Settings
@@ -212,5 +213,4 @@ public class LoginResponse
         [JsonPropertyName("canDelete")]
         public bool? CanDelete { get; set; }
     }
-
 }

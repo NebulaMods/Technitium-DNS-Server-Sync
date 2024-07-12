@@ -8,41 +8,20 @@ namespace TechnitiumSync;
 internal class Program
 {
     private static bool _isRunning = true;
-    static void Main(string[] args)
+
+    private static void Main(string[] args)
     {
         Console.WriteLine("Technitium DNS Server Sync is beginning to start...");
 
         // Check if the user has passed any arguments
         if (args.Length > 0)
         {
-            switch (args[0])
-            {
-                case "start":
-                    BackgroundService();
-                    break;
-                case "exit":
-                    _isRunning = false;
-                    break;
-                default:
-                    Console.WriteLine("Unknown command.");
-                    break;
-            }
+            CommandHandler(args[0]);
         }
 
         while (_isRunning)
         {
-            switch (Console.ReadLine())
-            {
-                case "start":
-                    BackgroundService();
-                    break;
-                case "exit":
-                    _isRunning = false;
-                    break;
-                default:
-                    Console.WriteLine("Unknown command.");
-                    break;
-            }
+            CommandHandler(Console.ReadLine());
         }
     }
 
@@ -60,7 +39,8 @@ internal class Program
         {
             // Read configuration file
             var config = await ReadConfigurationAsync();
-            if (config != null) {
+            if (config != null)
+            {
                 // Login to the server
                 var loginResponse = await Requests.LoginAsync(httpClient, config.Username, config.Password, config.MainServerUrl, config.IncludeInfo);
                 if (loginResponse != null)
@@ -77,7 +57,6 @@ internal class Program
                         await Task.Delay(config.SyncInterval * 1000);
                         continue;
                     }
-
 
                     foreach (var url in config.BackupServerUrls)
                     {
@@ -111,13 +90,18 @@ internal class Program
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
     private static async Task<Configuration> ReadConfigurationAsync()
     {
-        var configPath = Path.Combine(Path.GetDirectoryName(Environment.ProcessPath), "config.json");
+        var runningPath = Path.GetDirectoryName(Environment.ProcessPath);
+
+        if (string.IsNullOrWhiteSpace(runningPath))
+        {
+            Console.WriteLine("Failed to get the running path.");
+            Process.GetCurrentProcess().Kill();
+            return new Configuration();
+        }
+
+        var configPath = Path.Combine(runningPath, "config.json");
 
         if (!File.Exists(configPath))
         {
@@ -152,6 +136,32 @@ internal class Program
         }
 
         var config = await File.ReadAllTextAsync(configPath);
-        return JsonSerializer.Deserialize<Configuration>(config);
+        
+        var configJson = JsonSerializer.Deserialize<Configuration>(config);
+
+        return configJson ?? new Configuration();
+    }
+
+    private static void CommandHandler(string? command)
+    {
+
+        switch (command)
+        {
+            case "start":
+                BackgroundService();
+                break;
+            case "exit":
+                _isRunning = false;
+                break;
+            case "help":
+                Console.WriteLine("Commands:");
+                Console.WriteLine("start - Start the service");
+                Console.WriteLine("exit - Exit the service");
+                Console.WriteLine("help - Show this help message");
+                break;
+            default:
+                Console.WriteLine("Unknown command.");
+                break;
+        }
     }
 }
