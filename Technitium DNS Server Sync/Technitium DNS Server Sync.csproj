@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>TechnitiumSync</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PublishAot>false</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <ApplicationIcon>Obfuscators.ico</ApplicationIcon>
+    <Title>Technitium DNS Server Sync</Title>
+    <Company>Orbital, Inc.</Company>
+    <Description>A service to sync a primary Technitium DNS Server to many other servers.</Description>
+    <Copyright>Oribtal, Inc.</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Obfuscators.ico" />
+  </ItemGroup>
+
+</Project>
