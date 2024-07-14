@@ -17,6 +17,8 @@ internal class Program
         if (args.Length > 0)
         {
             CommandHandler(args[0]);
+            Thread.Sleep(Timeout.Infinite);
+            return;
         }
 
         while (_isRunning)
@@ -58,6 +60,15 @@ internal class Program
                         continue;
                     }
 
+                    var runningPath = Path.GetDirectoryName(Environment.ProcessPath);
+                    if (string.IsNullOrWhiteSpace(runningPath))
+                    {
+                        Console.WriteLine("Failed to get the running path.");
+                        continue;
+                    }
+
+                    var backupPath = Path.Combine(runningPath, "backup.zip");
+
                     foreach (var url in config.BackupServerUrls)
                     {
                         using var backupHttpClient = new HttpClient();
@@ -67,6 +78,7 @@ internal class Program
                         if (backupServerLoginResponse == null || backupServerLoginResponse.Status == "error")
                         {
                             Console.WriteLine("Failed to login to backup server.");
+                            File.Delete(backupPath);
                             continue;
                         }
 
@@ -75,12 +87,13 @@ internal class Program
                         if (syncBackup == null || syncBackup.Status == "error")
                         {
                             Console.WriteLine("Failed to sync data to backup server.");
+                            File.Delete(backupPath);
                             continue;
                         }
                     }
 
                     // Delete the backup file
-                    File.Delete(Environment.ProcessPath + "backup.zip");
+                    File.Delete(backupPath);
 
                     Console.WriteLine("Data synced successfully.");
                     Console.WriteLine("Waiting for next sync...");
@@ -136,7 +149,7 @@ internal class Program
         }
 
         var config = await File.ReadAllTextAsync(configPath);
-        
+
         var configJson = JsonSerializer.Deserialize<Configuration>(config);
 
         return configJson ?? new Configuration();
@@ -144,21 +157,23 @@ internal class Program
 
     private static void CommandHandler(string? command)
     {
-
         switch (command)
         {
             case "start":
                 BackgroundService();
                 break;
+
             case "exit":
                 _isRunning = false;
                 break;
+
             case "help":
                 Console.WriteLine("Commands:");
                 Console.WriteLine("start - Start the service");
                 Console.WriteLine("exit - Exit the service");
                 Console.WriteLine("help - Show this help message");
                 break;
+
             default:
                 Console.WriteLine("Unknown command.");
                 break;

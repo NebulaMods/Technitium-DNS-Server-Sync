@@ -33,8 +33,18 @@ internal class Requests
         response.EnsureSuccessStatusCode();
 
         // Save the file to disk
+        var runningPath = Path.GetDirectoryName(Environment.ProcessPath);
+
+        if (string.IsNullOrWhiteSpace(runningPath))
+        {
+            Console.WriteLine("Failed to get the running path.");
+            return false;
+        }
+
+        var backupPath = Path.Combine(runningPath, "backup.zip");
+
         var content = await response.Content.ReadAsStreamAsync();
-        using var fileStream = File.Create(Environment.ProcessPath + "backup.zip");
+        using var fileStream = File.Create(backupPath);
         await content.CopyToAsync(fileStream);
 
         return true;
@@ -43,7 +53,16 @@ internal class Requests
     public static async Task<RestoreResponse.Root?> SyncBackupAsync(HttpClient client, Configuration configuration, string token, string url)
     {
         // Read the file from disk using form data
-        using var fileStream = File.OpenRead(Environment.ProcessPath + "backup.zip");
+        var runningPath = Path.GetDirectoryName(Environment.ProcessPath);
+        if (string.IsNullOrWhiteSpace(runningPath))
+        {
+            Console.WriteLine("Failed to get the running path.");
+            return null;
+        }
+
+        var backupPath = Path.Combine(runningPath, "backup.zip");
+
+        using var fileStream = File.OpenRead(backupPath);
         using var content = new MultipartFormDataContent();
         content.Add(new StreamContent(fileStream), "fileBackupZip", "backup.zip");
 
